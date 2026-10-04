@@ -4,82 +4,98 @@
 
 线上地址：<https://sincejack.github.io/blog/>
 
-## 功能
+## 当前功能
 
-- 自动跟随系统浅色 / 深色模式，可手动切换并记忆
-- Markdown 自动生成文章
-- 分类与标签
-- 年份归档
+- 跟随系统 / 浅色 / 深色主题
+- GitHub 作者身份验证，仅允许 `@SinceJack` 解锁写作台
+- Markdown / 富文本双模式
+- 右侧实时文章预览
+- 自动保存本地草稿
+- 分类、标签、自定义 URL Slug
+- 图片按钮上传
+- 拖拽图片上传
+- 剪贴板直接粘贴图片
+- 图片自动保存到 `assets/uploads/YYYY/MM/`
+- 直接发布文章到 GitHub
+- 分类与归档
 - 站内全文搜索
 - 自动阅读时间
 - 文章目录（TOC）
 - RSS Feed
-- 作者专用写作台 `/admin/`
-- GitHub 身份验证，仅允许 `@SinceJack` 解锁
-- Markdown / 富文本双模式
-- 右侧实时文章预览
-- 可直接发布到 `_posts/`
+
+## 为什么文章发布到 `_posts/`，而不是 `posts/`
+
+这是 Jekyll 的标准机制：
+
+- `_posts/`：**文章源码目录**，Markdown 必须放这里，Jekyll 才会识别成文章并加入 `site.posts`
+- `/posts/.../`：**构建后的公开访问路径**，由 `_config.yml` 中的 `permalink: /posts/:title/` 自动生成
+
+所以写作台发布到 `_posts/` 是正确的。直接把 Markdown 放到普通 `posts/` 目录，反而不会自动进入首页文章列表。
+
+另外，`_posts/` 中的文件名必须符合：
+
+```text
+YYYY-MM-DD-title.md
+```
+
+例如：
+
+```text
+_posts/2026-10-04-my-post.md
+```
+
+不带日期前缀的文件会被 Jekyll 忽略。
 
 ## 作者登录
 
-写作页：<https://sincejack.github.io/blog/admin/>
+写作台：<https://sincejack.github.io/blog/admin/>
 
-由于 GitHub Pages 是纯静态托管，没有传统服务器后台，因此这里使用 **GitHub Fine-grained Personal Access Token** 做作者身份验证和发布授权。
+使用 GitHub Fine-grained Personal Access Token 验证：
 
-建议创建一个专门用于博客发布的 Fine-grained Token，并严格限制权限：
-
-1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**
-2. Repository access 选择 **Only select repositories**
+1. GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens
+2. Repository access → Only select repositories
 3. 只选择 `SinceJack/blog`
-4. Repository permissions → **Contents** → `Read and write`
-5. 其他权限尽量保持 `No access`
-6. 设置一个合理的过期时间
+4. Repository permissions → Contents → Read and write
+5. 其他权限尽量保持 No access
 
-写作台会调用 GitHub API 验证登录账号是否为 `SinceJack`，并检查是否拥有该仓库写权限。非 `SinceJack` 账号不会解锁编辑器。
+Token 只存放在当前浏览器 `sessionStorage`，不会写入博客仓库。登录成功后验证框自动隐藏，退出登录后重新显示。
 
-Token **不会写入仓库或网页源码**，只存放在当前浏览器 `sessionStorage` 中。点击退出登录或关闭对应浏览器会话后即可清除。
+## 图片写作流程
 
-## 推荐发布方式
+登录后可通过三种方式插入图片：
 
-1. 打开 `https://sincejack.github.io/blog/admin/`
-2. 输入专用 GitHub Fine-grained Token，点击「验证并登录」
-3. 填写标题、分类、标签和摘要
-4. 使用 Markdown 或富文本模式写正文
-5. 在右侧实时查看最终文章效果
-6. 点击「发布到博客」
-7. 写作台自动创建 `_posts/YYYY-MM-DD-title.md`
-8. GitHub Pages 自动构建并发布
+1. 点击编辑器工具栏的「🖼 图片」
+2. 把图片直接拖到正文编辑区
+3. 在系统中复制图片 / 截图后，在编辑器中直接 `Ctrl/Cmd + V`
 
-同时仍然保留「复制 Markdown」和「下载 .md」作为备份发布方式。
-
-## 直接在 GitHub 发布
-
-文章文件统一放在 `_posts/`：
+图片会自动上传到：
 
 ```text
-_posts/2026-10-05-my-post.md
+assets/uploads/YYYY/MM/
 ```
 
-Front Matter 示例：
+上传完成后，Markdown 图片语法会自动插入正文，右侧实时预览立即显示。
 
-```yaml
----
-layout: post
-title: "文章标题"
-date: 2026-10-05 10:00:00 +0800
-category: 技术
-tags: ["PHP", "MySQL"]
-description: "文章摘要"
----
-```
+## 发布流程
 
-然后直接使用 Markdown 写正文。
+1. 打开 `/admin/`
+2. 登录作者账号
+3. 填写标题、分类、标签、摘要，可选填写 URL Slug
+4. 使用 Markdown 或富文本模式写正文
+5. 右侧实时检查最终效果
+6. 点击「发布到博客」
+7. 写作台创建 `_posts/YYYY-MM-DD-title.md`
+8. GitHub Pages 自动构建
+9. 最终访问路径自动生成到 `/blog/posts/title/`
+
+博客时区已设置为 `Asia/Shanghai`，并允许新发布文章立即参与构建。
 
 ## 主要目录
 
-- `_posts/`：文章
+- `_posts/`：Jekyll 文章源码
 - `_layouts/`：页面模板
-- `assets/css/`：样式
+- `assets/uploads/`：文章图片
+- `assets/css/`：站点与写作台样式
 - `assets/js/`：主题功能
 - `admin/`：作者写作台
 - `archive.md`：归档与标签
