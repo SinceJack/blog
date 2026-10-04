@@ -3,4 +3,87 @@ layout: default
 title: 写文章
 permalink: /admin/
 ---
-<section class="page"><div class="wrap"><h1>写文章</h1><p class="page-intro">这是一个轻量发文助手：填写内容后自动生成符合 Jekyll 规范的 Markdown。它不会保存 GitHub 密钥，也不会直接修改仓库；生成后复制内容，再打开 GitHub 新建文章即可。</p><div class="admin-grid"><div><div class="field"><label>文章标题</label><input id="title" placeholder="例如：我如何设计一个可维护的 PHP 系统"></div><div class="field"><label>分类</label><input id="category" value="技术" placeholder="技术 / 随笔 / 教育科技"></div><div class="field"><label>标签</label><input id="tags" placeholder="PHP, MySQL, 项目管理"></div><div class="field"><label>摘要</label><textarea id="description" rows="3" placeholder="首页会显示这段摘要"></textarea></div><div class="field"><label>正文（Markdown）</label><textarea id="body" rows="18" placeholder="## 二级标题&#10;&#10;这里开始写正文……"></textarea></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">复制 Markdown</button><button class="btn" id="downloadBtn" type="button">下载 .md</button><a class="btn" id="githubBtn" href="https://github.com/SinceJack/blog/new/main/_posts" target="_blank" rel="noreferrer">打开 GitHub 发布 ↗</a></div><p class="meta" id="msg">文件名会自动按当前日期生成，你只需要在 GitHub 中粘贴内容并 Commit changes。</p></div><div><strong>生成预览</strong><pre id="preview" class="preview"></pre></div></div></div></section><script>(function(){const ids=['title','category','tags','description','body'];const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));const preview=document.getElementById('preview'),msg=document.getElementById('msg');function esc(s){return String(s||'').replace(/"/g,'\\"')}function slug(s){return String(s||'post').trim().toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g,'-').replace(/^-|-$/g,'')||'post'}function dateParts(){const d=new Date(),p=n=>String(n).padStart(2,'0');return {date:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()),time:p(d.getHours())+':'+p(d.getMinutes())+':00'}}function build(){const d=dateParts();const tags=els.tags.value.split(/[,，]/).map(x=>x.trim()).filter(Boolean);const fm=['---','layout: post','title: "'+esc(els.title.value||'未命名文章')+'"','date: '+d.date+' '+d.time+' +0800','category: '+(els.category.value.trim()||'随笔'),'tags: ['+tags.map(t=>'"'+esc(t)+'"').join(', ')+']','description: "'+esc(els.description.value)+'"','---','',''+els.body.value];const text=fm.join('\n');preview.textContent=text;return {text,filename:d.date+'-'+slug(els.title.value)+'.md'}}ids.forEach(id=>els[id].addEventListener('input',build));document.getElementById('copyBtn').onclick=async()=>{const x=build();await navigator.clipboard.writeText(x.text);msg.textContent='已复制 Markdown。现在点击“打开 GitHub 发布”，填写文件名 '+x.filename+'，粘贴并提交即可。'};document.getElementById('downloadBtn').onclick=()=>{const x=build(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([x.text],{type:'text/markdown;charset=utf-8'}));a.download=x.filename;a.click();URL.revokeObjectURL(a.href)};build()})();</script>
+<section class="page"><div class="wrap admin-wide">
+  <div class="admin-head"><div><h1>博客写作台</h1><p class="page-intro">仅允许 GitHub 账号 <strong>@SinceJack</strong> 解锁写作和发布。支持 Markdown、富文本工具栏、右侧实时预览和直接发布到 GitHub。</p></div><div id="authBadge" class="auth-badge locked">🔒 未登录</div></div>
+
+  <div id="loginPanel" class="login-card">
+    <div><h2>作者登录</h2><p>使用 GitHub Fine-grained Personal Access Token 验证身份。建议 Token 仅授权 <strong>SinceJack/blog</strong>，Repository permissions 只开启 <strong>Contents: Read and write</strong>。Token 仅保存在当前浏览器会话中，关闭标签页后可清除。</p></div>
+    <div class="login-form"><input id="tokenInput" type="password" autocomplete="off" placeholder="粘贴 GitHub Fine-grained Token"><button class="btn primary" id="loginBtn" type="button">验证并登录</button><div id="loginMsg" class="meta"></div></div>
+  </div>
+
+  <div id="editorPanel" hidden>
+    <div class="editor-meta-grid">
+      <div class="field"><label>文章标题</label><input id="title" placeholder="例如：我如何设计一个可维护的 PHP 系统"></div>
+      <div class="field"><label>分类</label><input id="category" value="技术" placeholder="技术 / 随笔 / 教育科技"></div>
+      <div class="field"><label>标签</label><input id="tags" placeholder="PHP, MySQL, AI"></div>
+      <div class="field"><label>摘要</label><input id="description" placeholder="首页文章卡片中显示的一句话摘要"></div>
+    </div>
+
+    <div class="editor-toolbar-wrap">
+      <div class="mode-tabs"><button class="mode-tab active" id="mdMode" type="button">Markdown</button><button class="mode-tab" id="richMode" type="button">富文本</button></div>
+      <div id="formatToolbar" class="format-toolbar">
+        <button type="button" data-md="bold"><b>B</b></button><button type="button" data-md="italic"><i>I</i></button><button type="button" data-md="h2">H2</button><button type="button" data-md="h3">H3</button><button type="button" data-md="ul">• 列表</button><button type="button" data-md="ol">1. 列表</button><button type="button" data-md="quote">❝ 引用</button><button type="button" data-md="code">&lt;/&gt;</button><button type="button" data-md="link">🔗 链接</button>
+      </div>
+    </div>
+
+    <div class="writer-grid">
+      <div class="editor-pane">
+        <textarea id="body" class="markdown-editor" spellcheck="false" placeholder="## 二级标题&#10;&#10;这里开始写正文……"></textarea>
+        <div id="richEditor" class="rich-editor" contenteditable="true" hidden></div>
+      </div>
+      <aside class="live-preview"><div class="preview-head"><strong>实时预览</strong><span id="wordInfo">0 字 · 约 1 分钟阅读</span></div><article id="articlePreview" class="preview-article"><h1>文章标题</h1><p class="preview-muted">预览会随着你输入实时更新。</p></article></aside>
+    </div>
+
+    <div class="actions admin-actions"><button class="btn primary" id="publishBtn" type="button">发布到博客</button><button class="btn" id="copyBtn" type="button">复制 Markdown</button><button class="btn" id="downloadBtn" type="button">下载 .md</button><button class="btn" id="logoutBtn" type="button">退出登录</button></div>
+    <p class="meta" id="msg">发布后 GitHub Pages 会自动重新构建博客。</p>
+  </div>
+</div></section>
+<script>
+(function(){
+const OWNER='SinceJack',REPO='blog',BRANCH='main';
+const $=id=>document.getElementById(id), editor=$('body'), rich=$('richEditor');
+const fields={title:$('title'),category:$('category'),tags:$('tags'),description:$('description')};
+let token=sessionStorage.getItem('blog_github_token')||'',mode='md';
+function escHtml(s){return String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
+function slug(s){return String(s||'post').trim().toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g,'-').replace(/^-|-$/g,'')||'post'}
+function today(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function now(){const d=new Date(),p=n=>String(n).padStart(2,'0');return today()+' '+p(d.getHours())+':'+p(d.getMinutes())+':00 +0800'}
+function inline(s){return escHtml(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noreferrer">$1</a>')}
+function mdToHtml(md){
+ const lines=String(md||'').replace(/\r/g,'').split('\n');let out='',list=null,inCode=false,code=[];
+ function closeList(){if(list){out+='</'+list+'>';list=null}}
+ for(const raw of lines){const line=raw;
+  if(line.startsWith('```')){closeList();if(inCode){out+='<pre><code>'+escHtml(code.join('\n'))+'</code></pre>';code=[];inCode=false}else inCode=true;continue}
+  if(inCode){code.push(line);continue}
+  if(/^###\s+/.test(line)){closeList();out+='<h3>'+inline(line.replace(/^###\s+/,''))+'</h3>';continue}
+  if(/^##\s+/.test(line)){closeList();out+='<h2>'+inline(line.replace(/^##\s+/,''))+'</h2>';continue}
+  if(/^#\s+/.test(line)){closeList();out+='<h1>'+inline(line.replace(/^#\s+/,''))+'</h1>';continue}
+  if(/^>\s?/.test(line)){closeList();out+='<blockquote>'+inline(line.replace(/^>\s?/,''))+'</blockquote>';continue}
+  if(/^[-*]\s+/.test(line)){if(list!=='ul'){closeList();list='ul';out+='<ul>'}out+='<li>'+inline(line.replace(/^[-*]\s+/,''))+'</li>';continue}
+  if(/^\d+\.\s+/.test(line)){if(list!=='ol'){closeList();list='ol';out+='<ol>'}out+='<li>'+inline(line.replace(/^\d+\.\s+/,''))+'</li>';continue}
+  closeList();if(!line.trim()){out+='<br>'}else out+='<p>'+inline(line)+'</p>';
+ }
+ closeList();if(inCode)out+='<pre><code>'+escHtml(code.join('\n'))+'</code></pre>';return out;
+}
+function htmlToMd(html){const box=document.createElement('div');box.innerHTML=html;function walk(n){if(n.nodeType===3)return n.nodeValue;if(n.nodeType!==1)return'';const t=n.tagName.toLowerCase(),inner=[...n.childNodes].map(walk).join('');if(t==='h1')return'# '+inner+'\n\n';if(t==='h2')return'## '+inner+'\n\n';if(t==='h3')return'### '+inner+'\n\n';if(t==='strong'||t==='b')return'**'+inner+'**';if(t==='em'||t==='i')return'*'+inner+'*';if(t==='code'&&n.parentElement&&n.parentElement.tagName.toLowerCase()==='pre')return inner;if(t==='code')return'`'+inner+'`';if(t==='pre')return'```\n'+inner+'\n```\n\n';if(t==='blockquote')return'> '+inner.trim().replace(/\n/g,'\n> ')+'\n\n';if(t==='a')return'['+inner+']('+n.getAttribute('href')+')';if(t==='br')return'\n';if(t==='p'||t==='div')return inner.trim()+'\n\n';if(t==='li')return inner.trim();if(t==='ul')return[...n.children].map(x=>'- '+walk(x)).join('\n')+'\n\n';if(t==='ol')return[...n.children].map((x,i)=>(i+1)+'. '+walk(x)).join('\n')+'\n\n';return inner}return[...box.childNodes].map(walk).join('').replace(/\n{3,}/g,'\n\n').trim()}
+function currentMd(){return mode==='md'?editor.value:htmlToMd(rich.innerHTML)}
+function build(){const tags=fields.tags.value.split(/[,，]/).map(x=>x.trim()).filter(Boolean),body=currentMd();const text=['---','layout: post','title: "'+String(fields.title.value||'未命名文章').replace(/"/g,'\\"')+'"','date: '+now(),'category: '+(fields.category.value.trim()||'随笔'),'tags: ['+tags.map(t=>'"'+t.replace(/"/g,'\\"')+'"').join(', ')+']','description: "'+String(fields.description.value||'').replace(/"/g,'\\"')+'"','---','',body].join('\n');return{text,body,filename:today()+'-'+slug(fields.title.value)+'.md'}}
+function preview(){const x=build(),title=escHtml(fields.title.value||'文章标题'),cat=escHtml(fields.category.value||'随笔'),tags=fields.tags.value.split(/[,，]/).map(x=>x.trim()).filter(Boolean);$('articlePreview').innerHTML='<h1>'+title+'</h1><div class="preview-meta">'+today()+' · '+cat+'</div>'+(tags.length?'<div class="post-tags">'+tags.map(t=>'<span class="mini-tag">#'+escHtml(t)+'</span>').join('')+'</div>':'')+'<div class="preview-body">'+mdToHtml(x.body)+'</div>';const chars=x.body.replace(/\s/g,'').length,min=Math.max(1,Math.ceil(chars/500));$('wordInfo').textContent=chars+' 字 · 约 '+min+' 分钟阅读'}
+function insertMd(type){const a=editor.selectionStart,b=editor.selectionEnd,v=editor.value,sel=v.slice(a,b);let text=sel,after=0;if(type==='bold')text='**'+(sel||'加粗文字')+'**';if(type==='italic')text='*'+(sel||'斜体文字')+'*';if(type==='h2')text='## '+(sel||'二级标题');if(type==='h3')text='### '+(sel||'三级标题');if(type==='ul')text=(sel||'列表项').split('\n').map(x=>'- '+x).join('\n');if(type==='ol')text=(sel||'列表项').split('\n').map((x,i)=>(i+1)+'. '+x).join('\n');if(type==='quote')text=(sel||'引用内容').split('\n').map(x=>'> '+x).join('\n');if(type==='code')text='`'+(sel||'code')+'`';if(type==='link')text='['+(sel||'链接文字')+'](https://)';editor.setRangeText(text,a,b,'end');editor.focus();preview()}
+function richCmd(cmd,value){rich.focus();document.execCommand(cmd,false,value||null);preview()}
+function setMode(next){if(next===mode)return;if(next==='rich'){rich.innerHTML=mdToHtml(editor.value);editor.hidden=true;rich.hidden=false;$('mdMode').classList.remove('active');$('richMode').classList.add('active');mode='rich'}else{editor.value=htmlToMd(rich.innerHTML);rich.hidden=true;editor.hidden=false;$('richMode').classList.remove('active');$('mdMode').classList.add('active');mode='md'}preview()}
+async function api(path,opt={}){const r=await fetch('https://api.github.com'+path,{...opt,headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.message||('GitHub API '+r.status));return data}
+async function verify(t){token=t.trim();if(!token)throw new Error('请输入 GitHub Token');const user=await api('/user');if(user.login!==OWNER)throw new Error('当前账号 @'+user.login+' 没有作者权限，仅 @'+OWNER+' 可以写文章。');const repo=await api('/repos/'+OWNER+'/'+REPO);if(!repo.permissions||(!repo.permissions.push&&!repo.permissions.admin))throw new Error('Token 没有该仓库的写入权限。请为 '+OWNER+'/'+REPO+' 开启 Contents: Read and write。');sessionStorage.setItem('blog_github_token',token);unlock(user)}
+function unlock(user){$('loginPanel').hidden=true;$('editorPanel').hidden=false;$('authBadge').className='auth-badge ok';$('authBadge').textContent='✅ @'+user.login+' 已登录';preview()}
+function lock(msg){sessionStorage.removeItem('blog_github_token');token='';$('editorPanel').hidden=true;$('loginPanel').hidden=false;$('authBadge').className='auth-badge locked';$('authBadge').textContent='🔒 未登录';if(msg)$('loginMsg').textContent=msg}
+$('loginBtn').onclick=async()=>{try{$('loginMsg').textContent='正在验证…';await verify($('tokenInput').value);$('loginMsg').textContent=''}catch(e){lock(e.message)}};
+$('logoutBtn').onclick=()=>lock('已退出。');
+$('mdMode').onclick=()=>setMode('md');$('richMode').onclick=()=>setMode('rich');
+$('formatToolbar').onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=b.dataset.md;if(mode==='md')insertMd(t);else{if(t==='bold')richCmd('bold');else if(t==='italic')richCmd('italic');else if(t==='h2')richCmd('formatBlock','h2');else if(t==='h3')richCmd('formatBlock','h3');else if(t==='ul')richCmd('insertUnorderedList');else if(t==='ol')richCmd('insertOrderedList');else if(t==='quote')richCmd('formatBlock','blockquote');else if(t==='link'){const u=prompt('输入链接地址','https://');if(u)richCmd('createLink',u)}else if(t==='code')richCmd('formatBlock','pre')}};
+[...Object.values(fields),editor].forEach(el=>el.addEventListener('input',preview));rich.addEventListener('input',preview);
+$('copyBtn').onclick=async()=>{const x=build();await navigator.clipboard.writeText(x.text);$('msg').textContent='已复制 '+x.filename};
+$('downloadBtn').onclick=()=>{const x=build(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([x.text],{type:'text/markdown;charset=utf-8'}));a.download=x.filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('publishBtn').onclick=async()=>{try{if(!fields.title.value.trim())throw new Error('请先填写文章标题。');const x=build(),path='/repos/'+OWNER+'/'+REPO+'/contents/_posts/'+encodeURIComponent(x.filename);$('msg').textContent='正在发布 '+x.filename+' …';const encoded=btoa(unescape(encodeURIComponent(x.text)));await api(path,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Publish: '+fields.title.value,content:encoded,branch:BRANCH})});$('msg').innerHTML='✅ 已发布。GitHub Pages 正在构建，稍后可在 <a href="https://sincejack.github.io/blog/" target="_blank">博客首页</a> 查看。'}catch(e){$('msg').textContent='发布失败：'+e.message}};
+if(token){verify(token).catch(e=>lock(e.message))}else lock();preview();
+})();
+</script>
