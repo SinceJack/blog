@@ -3,6 +3,7 @@ layout: post
 title: "博客重新开张：从 yuanfei.fun 到 GitHub Pages"
 date: 2026-10-04 12:00:00 +0800
 category: 随笔
+tags: ["博客", "GitHub Pages", "记录"]
 description: "为什么重新把博客放到 GitHub Pages，以及接下来我准备在这里持续记录什么。"
 ---
 
@@ -19,5 +20,9 @@ description: "为什么重新把博客放到 GitHub Pages，以及接下来我�
 - AI 工具与 AI 工作流
 - 项目设计、部署和踩坑记录
 - 一些个人思考与阶段总结
+
+## 为什么选择重新开始
+
+与其维护一套越来越复杂的博客系统，我更希望内容本身可以长期保存、容易迁移。Markdown + Git + GitHub Pages 的组合很适合这一点。
 
 这次博客也会和我的个人主页连接起来，作为一个持续更新的内容空间。
