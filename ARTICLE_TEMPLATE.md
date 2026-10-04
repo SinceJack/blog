@@ -3,6 +3,7 @@ layout: post
 title: "这里填写文章标题"
 date: 2026-10-04 20:00:00 +0800
 category: 技术
+tags: ["PHP", "MySQL"]
 description: "这里填写一句话摘要，会显示在博客首页文章卡片中。"
 ---
 
@@ -23,4 +24,4 @@ description: "这里填写一句话摘要，会显示在博客首页文章卡片
 echo "Hello Blog";
 ```
 
-> 发布方法：把这个模板复制到 `_posts` 文件夹，并把文件名改成 `YYYY-MM-DD-英文或拼音标题.md`，然后提交即可。
+> 推荐使用博客里的 `/admin/` 发文助手生成 Markdown；也可以直接复制本模板到 `_posts` 文件夹，并把文件名改成 `YYYY-MM-DD-英文或拼音标题.md` 后提交。
