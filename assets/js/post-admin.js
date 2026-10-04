@@ -18,7 +18,7 @@
       if(user.login!==OWNER) return;
       box.hidden=false;
       document.getElementById('editPostBtn').onclick=()=>{
-        location.href=BLOG+'/admin/?edit='+encodeURIComponent(sourcePath);
+        window.open('https://github.com/'+OWNER+'/'+REPO+'/edit/main/'+sourcePath,'_blank','noopener');
       };
       document.getElementById('deletePostBtn').onclick=async()=>{
         if(!confirm('确定删除《'+title+'》吗？\n\n删除后 GitHub Pages 会自动重新构建，文章将从博客中移除。')) return;
@@ -35,7 +35,7 @@
           btn.disabled=false; btn.textContent='删除文章';
         }
       };
-    }catch(e){/* 非作者或 Token 失效时保持隐藏 */}
+    }catch(e){}
   }
   init();
 })();
