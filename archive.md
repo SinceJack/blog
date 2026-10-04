@@ -1,0 +1,6 @@
+---
+layout: default
+title: 归档
+permalink: /archive/
+---
+<section class="page"><div class="wrap"><h1>文章归档</h1><p class="page-intro">按时间、分类和标签浏览所有文章。</p><h2>标签</h2><div class="tag-cloud">{% assign all_tags = site.tags | sort %}{% for tag in all_tags %}<a class="mini-tag" id="tag-{{ tag[0] | slugify }}" href="#tag-{{ tag[0] | slugify }}">#{{ tag[0] }} · {{ tag[1].size }}</a>{% endfor %}</div><h2>分类</h2><div class="tag-cloud">{% assign all_categories = site.categories | sort %}{% for category in all_categories %}<span class="mini-tag">{{ category[0] }} · {{ category[1].size }}</span>{% endfor %}</div>{% assign current_year = '' %}{% for post in site.posts %}{% assign post_year = post.date | date: '%Y' %}{% if post_year != current_year %}<h2 class="archive-year">{{ post_year }}</h2>{% assign current_year = post_year %}{% endif %}<div class="archive-item"><time>{{ post.date | date: '%m-%d' }}</time><div><a href="{{ post.url | relative_url }}"><strong>{{ post.title }}</strong></a><div class="meta">{% if post.category %}{{ post.category }}{% endif %}{% if post.tags %} · {% for tag in post.tags %}#{{ tag }} {% endfor %}{% endif %}</div></div></div>{% endfor %}</div></section>
