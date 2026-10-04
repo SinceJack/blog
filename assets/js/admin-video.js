@@ -25,9 +25,11 @@
       if(!res.ok){const x=await res.json().catch(()=>({}));throw new Error(x.message||('GitHub API '+res.status))}
       const url='https://sincejack.github.io/blog/'+path;
       const md='\n<video controls preload="metadata" style="max-width:100%;border-radius:12px">\n  <source src="'+url+'">\n</video>\n';
+      const rich=document.getElementById('richEditor');
+      if(rich&&!rich.hidden){document.getElementById('mdMode')?.click();await new Promise(r=>setTimeout(r,30))}
       const editor=document.getElementById('body');
       if(editor){const a=editor.selectionStart,b=editor.selectionEnd;editor.setRangeText(md,a,b,'end');editor.dispatchEvent(new Event('input',{bubbles:true}));editor.focus()}
-      if(state)state.textContent='✅ 视频已上传';
+      if(state)state.textContent='✅ 视频已上传并插入正文';
     }catch(e){if(state)state.textContent='视频上传失败：'+e.message}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
