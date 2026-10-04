@@ -3,5 +3,7 @@ description: "记录教育科技、Web 开发、AI 应用与真实项目实践�
 url: "https://sincejack.github.io"
 baseurl: "/blog"
 lang: zh-CN
+timezone: Asia/Shanghai
+future: true
 markdown: kramdown
 permalink: /posts/:title/
