@@ -17,7 +17,7 @@ permalink: /about/
       <p class="about-lead">从 PHP / Web 开发、技术教学，到今天的一线教育运营，我一直在做同一件事：<strong>把复杂问题梳理清楚，再用技术、流程和执行把它真正落地。</strong></p>
       <div class="about-actions"><a class="about-btn primary" href="{{ '/' | relative_url }}">阅读我的文章 →</a><a class="about-btn" href="https://github.com/SinceJack" target="_blank" rel="noreferrer">GitHub · @SinceJack ↗</a></div>
     </div>
-    <div class="portrait-wrap"><div class="portrait-frame"><img src="https://avatars.githubusercontent.com/u/18733772?v=4" alt="袁晓飞 Frank Yuan"></div></div>
+    <div class="portrait-wrap"><div class="portrait-frame"><img src="{{ '/assets/images/frank-avatar.jpg' | relative_url }}" alt="袁晓飞 Frank Yuan"></div></div>
   </section>
 
   <section class="about-section">
