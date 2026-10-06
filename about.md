@@ -17,7 +17,7 @@ permalink: /about/
       <p class="about-lead">从 PHP / Web 开发、技术教学，到今天的一线教育运营，我一直在做同一件事：<strong>把复杂问题梳理清楚，再用技术、流程和执行把它真正落地。</strong></p>
       <div class="about-actions"><a class="about-btn primary" href="{{ '/' | relative_url }}">阅读我的文章 →</a><a class="about-btn" href="https://github.com/SinceJack" target="_blank" rel="noreferrer">GitHub · @SinceJack ↗</a></div>
     </div>
-    <div class="portrait-wrap"><div class="portrait-frame"><img src="{{ '/assets/images/frank-avatar.jpg' | relative_url }}" alt="袁晓飞 Frank Yuan"></div></div>
+    <div class="portrait-wrap"><div class="portrait-frame"><img src="https://avatars.githubusercontent.com/u/18733772?v=4" alt="袁晓飞 Frank Yuan GitHub 头像"></div></div>
   </section>
 
   <section class="about-section">
@@ -42,20 +42,14 @@ permalink: /about/
     <div class="about-head"><div><h2>职业经历</h2><p>从技术讲师、创业实践，到教育科技与一线运营。</p></div></div>
     <div class="timeline">
       <article class="career"><div class="career-time">2023 — 至今</div><div class="career-body"><div class="career-top"><div><h3>北京锐满分智牛科技有限公司</h3><div class="career-role">英语速记督导</div></div></div><p>主要负责校区<strong>助教老师与英语速记学生的管理工作</strong>，围绕课程安排、助教协同、学生学习进度、教学交付与日常运营进行管理与衔接；同时持续将实际工作流程数字化，用系统和工具提升校区协作效率。</p><div class="career-tags"><span>助教管理</span><span>学生管理</span><span>英语速记</span><span>教学运营</span><span>流程数字化</span></div></div></article>
-      <article class="career"><div class="career-time">2020 — 2023</div><div class="career-body"><h3>北京中公教育科技有限公司</h3><div class="career-role">网络安全课程教研 / 授课</div><p>围绕网络安全相关课程开展教学、教研与内容研发工作，涉及网络基础、Web 安全、漏洞与渗透等方向，并持续参与内部教学系统与课程工具的开发维护。旧版简历中这一阶段记录为“网络安全讲师、广东省考面试讲师”。</p><div class="career-tags"><span>网络安全</span><span>课程教研</span><span>技术授课</span><span>教学系统</span></div></div></article>
+      <article class="career"><div class="career-time">2020 — 2023</div><div class="career-body"><h3>北京中公教育科技有限公司</h3><div class="career-role">网络安全课程教研 / 授课</div><p>围绕网络安全相关课程开展教学、教研与内容研发工作，涉及网络基础、Web 安全、漏洞与渗透等方向，并持续参与内部教学系统与课程工具的开发维护。</p><div class="career-tags"><span>网络安全</span><span>课程教研</span><span>技术授课</span><span>教学系统</span></div></div></article>
       <article class="career"><div class="career-time">2019 — 2020</div><div class="career-body"><h3>北京美萌创意科技有限公司</h3><div class="career-role">合伙人</div><p>参与面向成人的在线儿童插画培训项目，负责业务系统、在线签约、官网与直播相关能力建设，并参与多个内容平台的运营实践。</p><div class="career-tags"><span>创业实践</span><span>Laravel</span><span>业务系统</span><span>内容运营</span></div></div></article>
       <article class="career"><div class="career-time">2017 — 2019</div><div class="career-body"><h3>北京火星时代网络科技有限公司</h3><div class="career-role">PHP 高级讲师</div><p>负责 HTML5、PHP、Vue、微信小程序、Laravel、Linux、JavaScript、jQuery、Ajax 等课程教学，并参与学员信息管理与公司内部系统的开发维护。</p><div class="career-tags"><span>PHP</span><span>Laravel</span><span>Vue</span><span>技术教学</span></div></div></article>
-      <article class="career"><div class="career-time">2015 — 2017</div><div class="career-body"><h3>北京市易弟优教育咨询有限公司</h3><div class="career-role">开发组项目经理 / PHP 讲师</div><p>从事项目研发、PHP 技术培训、课程研发与授课工作，并承担班级教学与学员管理，是从“开发者”走向“技术教育者”的起点。</p><div class="career-tags"><span>项目研发</span><span>PHP 培训</span><span>课程研发</span><span>团队协作</span></div></div></article>
+      <article class="career"><div class="career-time">2015 — 2017</div><div class="career-body"><h3>北京市易弟优教育咨询有限公司</h3><div class="career-role">开发组项目经理 / PHP 讲师</div><p>从项目研发进入技术教育，承担 PHP 技术培训、课程研发与授课工作，并参与学员管理与内部协作，形成了“开发 + 教学 + 产品”并行的职业起点。</p><div class="career-tags"><span>项目研发</span><span>PHP 培训</span><span>课程研发</span><span>团队协作</span></div></div></article>
     </div>
   </section>
 
-  <section class="about-section">
-    <div class="about-head"><div><h2>能力与工具</h2><p>技术是基础，解决问题才是目标。</p></div></div>
-    <div class="skills-panel"><div class="skills-groups">
-      <div class="skill-group"><h3>技术开发</h3><div class="skill-list"><span class="skill-tag">PHP</span><span class="skill-tag">Laravel</span><span class="skill-tag">ThinkPHP</span><span class="skill-tag">MySQL</span><span class="skill-tag">HTML / CSS</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Git</span><span class="skill-tag">Linux / Apache</span></div></div>
-      <div class="skill-group"><h3>教育与业务</h3><div class="skill-list"><span class="skill-tag">教学运营</span><span class="skill-tag">教师管理</span><span class="skill-tag">学生管理</span><span class="skill-tag">排课协同</span><span class="skill-tag">流程设计</span><span class="skill-tag">AI Workflow</span><span class="skill-tag">业务数字化</span><span class="skill-tag">产品思维</span></div></div>
-    </div></div>
-  </section>
+  <section class="about-section"><div class="about-head"><div><h2>技能与实践</h2><p>技术是基础，解决真实问题才是目标。</p></div></div><div class="skills-panel"><div class="skills-groups"><div class="skill-group"><h3>技术开发</h3><div class="skill-list"><span class="skill-tag">PHP</span><span class="skill-tag">Laravel</span><span class="skill-tag">ThinkPHP</span><span class="skill-tag">MySQL</span><span class="skill-tag">HTML / CSS</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Git</span><span class="skill-tag">Linux / Apache</span></div></div><div class="skill-group"><h3>教育与业务</h3><div class="skill-list"><span class="skill-tag">教学运营</span><span class="skill-tag">教师管理</span><span class="skill-tag">学生管理</span><span class="skill-tag">排课协同</span><span class="skill-tag">流程设计</span><span class="skill-tag">AI Workflow</span><span class="skill-tag">业务数字化</span><span class="skill-tag">产品思维</span></div></div></div></div></section>
 
   <div class="about-quote"><strong>把技术留在手里，把问题放在真实场景里。</strong><span>Keep learning · Keep building · Keep moving forward.</span></div>
 </div></div>
